@@ -71,16 +71,13 @@
             let sum = 0;
             arry3.forEach(element=>{
                 if(variable[variable.indexOf(element)-1]=='-'){
-                    arry3[arry3.indexOf(element)] = -element
+                    arry3[sum] = -element
                     variablearry[variablearry.indexOf(parseFloat(element))] = -element;
                 }
                 variable = variable.replace(element,'');
                 sum++;
             })
-            console.log(variablearry)
             variable =variablearry.join('')
-            console.log(arry3)
-            console.log(variable)
             arry3.forEach(element => {
                 something++;
                 let elements = parseFloat(element)
