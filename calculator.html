@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 400px) {
+            .calculator {
+                width: 90%;
+            }
+        }
+    </style>
+    <div class="calculator">
+        <input type="text" placeholder="Enter your calculation" id="input_arry" />
+        <button id="input_button">Calculate</button>
+    </div>
+    <script>
+        document.getElementById('input_button').addEventListener('click',()=>{
+            let input = document.getElementById('input_arry').value;
+            document.getElementById('input_arry').value = variables(input)
+        })
+        function variables(variabl){
+            let variable = variabl.toString();
+            let arry3 = variable.split(/[\+\-\/\*]/)
+            let something = -1;
+            let thing =-1
+            let variablearry =variable.split('')
+            let sum = 0;
+            arry3.forEach(element=>{
+                if(variable[variable.indexOf(element)-1]=='-'){
+                    arry3[arry3.indexOf(element)] = -element
+                    variablearry[variablearry.indexOf(parseFloat(element))] = -element;
+                }
+                variable = variable.replace(element,'');
+                sum++;
+            })
+            console.log(variablearry)
+            variable =variablearry.join('')
+            console.log(arry3)
+            console.log(variable)
+            arry3.forEach(element => {
+                something++;
+                let elements = parseFloat(element)
+                switch(variable[variable.indexOf(element)-1]){
+                    case '*':
+                        arry3[something] = arry3[something-1]*elements
+                        arry3[something-1] = 0;
+                        variable = variable.replace('*','')
+                        break
+                    case '/':
+                        arry3[something] = arry3[something-1]/elements
+                        arry3[something-1] = 0;
+                        variable = variable.replace('/','')
+                        break;
+                }
+                variable = variable.replace(element,'');
+            });
+            let total = 0;
+            arry3.forEach(element=>{console.log(total);total =total+parseFloat(element)})
+            return total;
+        } 
+    </script>
+</html>
