@@ -18,14 +18,14 @@
         .calculator {
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(182, 28, 28, 0.1);
             padding: 20px;
             width: 300px;
         }
         input[type="text"] {
             width: 100%;
             padding: 10px;
-            border: 2px solid #007BFF;
+            border: 2px solid #00ff2a;
             border-radius: 5px;
             font-size: 16px;
             margin-bottom: 20px;
@@ -60,10 +60,15 @@
     <script>
         document.getElementById('input_button').addEventListener('click',()=>{
             let input = document.getElementById('input_arry').value;
-            document.getElementById('input_arry').value = variables(input)
+            document.getElementById('input_arry').value = all(input)
         })
         function variables(variabl){
             let variable = variabl.toString();
+            while(variable.match(/\+\+|[\+\-]{2}|[\-+]{2}/g)!==null){
+                if(variable.match(/--/)!==null){variable = variable.replace('--','+')}
+                if(variable.match(/\+\+/)!==null){variable = variable.replace('++','+')}
+                if(variable.match(/\+-/)!==null){variable = variable.replace('+-','-')}
+                if(variable.match(/-\+/)!==null){variable = variable.replace('-+','-')}}
             let arry3 = variable.split(/[\+\-\/\*]/)
             let something = -1;
             let thing =-1
@@ -96,8 +101,30 @@
                 variable = variable.replace(element,'');
             });
             let total = 0;
-            arry3.forEach(element=>{console.log(total);total =total+parseFloat(element)})
+            arry3.forEach(element=>{total =total+parseFloat(element)})
             return total;
         } 
+        function all(variable){
+            let matches1 = [];
+            let arry1 =[];
+            let total =0;
+            variable = variable.toString()
+            let matches = variable.match(/\([^()]*\)/g)
+            console.log(matches)
+            if(matches===null){
+                return variables(variable);
+            }else{
+                matches.forEach(element => {
+                    element = element.replace('(','');
+                    element = element.replace(')',''); 
+                    matches1[total] = variables(element);
+                    total++;
+                });
+                for(let i=0;i<matches.length;i++){
+                    variable = variable.replace(matches[i],matches1[i])
+                }
+                return variables(variable)
+            }
+        }
     </script>
 </html>
